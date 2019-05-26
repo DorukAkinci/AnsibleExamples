@@ -1,0 +1,5 @@
+- name: install kubectl on localhost
+  hosts: localhost
+  become: true
+  roles:
+    - kubectl

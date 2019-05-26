@@ -1,0 +1,20 @@
+- name: run test playbook on localhost
+  hosts: localhost
+  become: yes
+  
+  tasks:
+
+    - name: get hostname
+      command: hostname
+
+    - name: Check Ansible version
+      command: ansible --version
+      register: ansibleVersion
+
+    - name: Print version
+      debug:
+        msg: "Ansible Version: {{ ansibleVersion.stdout }}"
+
+    - name: echo
+      debug:
+        msg: System {{ ansible_nodename }} has uuid {{ ansible_product_uuid }}

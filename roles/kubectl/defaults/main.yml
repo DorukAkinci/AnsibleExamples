@@ -1,0 +1,6 @@
+---
+# defaults file for kubectl
+
+kubectl:
+  get_release_url: https://storage.googleapis.com/kubernetes-release/release/stable.txt
+  download_folder: "/usr/local/bin"

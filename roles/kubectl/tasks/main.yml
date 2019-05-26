@@ -1,0 +1,27 @@
+---
+# tasks file for kubectl
+
+- name: Get the Latest Version Kubectl
+  command: curl -s {{ kubectl.get_release_url }}
+  register: get_latest_version_kubectl
+  args:
+    warn: false
+
+- name: Output for installing version
+  debug:
+    msg: "{{ get_latest_version_kubectl.stdout }}"
+
+- name: Ensure bin directory exists
+  file:
+    path: "{{ kubectl.download_folder }}"
+    state: directory
+
+- name: Download Kubectl
+  get_url:
+      url: "https://storage.googleapis.com/kubernetes-release/release/{{ get_latest_version_kubectl.stdout }}/bin/linux/amd64/kubectl" # required. HTTP, HTTPS, or FTP URL in the form (http|https|ftp)://[user[:pass]]@host.domain[:port]/path
+      dest: "{{ kubectl.download_folder }}/kubectl" # required. Absolute path of where to download the file to.,If C(dest) is a directory, either the server provided filename or, if none provided, the base name of the URL on the remote server will be used. If a directory, C(force) has no effect.,If C(dest) is a directory, the file will always be downloaded (regardless of the C(force) option), but replaced only if the contents changed...
+
+- name: Set permissions for kubectl
+  file:
+    path: "{{ kubectl.download_folder }}/kubectl"
+    mode: "0755"
